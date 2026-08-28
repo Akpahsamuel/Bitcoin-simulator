@@ -1,0 +1,16 @@
+{
+  "name": "Bitcoin Core 31.1 Workshop Lab",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  "postStartCommand": "bash ./scripts/init-lab.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}
+

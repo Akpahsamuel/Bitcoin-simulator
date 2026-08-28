@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Wrapper for bitcoin-cli pointing to the workshop datadir.
+# Matches the deck alias: alias btc='bitcoin-cli -datadir=$HOME/btc-lab'
+exec bitcoin-cli -datadir="${BTC_DATADIR:-$HOME/btc-lab}" "$@"
+

@@ -1,0 +1,10 @@
+# Local lab datadir if executed on host
+btc-lab/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
