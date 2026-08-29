@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
+# One command to bring up the workshop lab:
+#   data dir + bitcoin.conf (Slide 4) + a running regtest node (Slide 5).
+# Safe to run repeatedly. Also runs automatically on Codespace start.
 set -e
 
 LAB_DIR="${BTC_DATADIR:-$HOME/btc-lab}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BTC="$SCRIPT_DIR/btc"
+BITCOIND="$(command -v bitcoind-real || command -v bitcoind)"
 
-echo "=== Initializing Bitcoin Core Workshop Lab ==="
+echo "=== Bitcoin Core Workshop Lab ==="
 
-# 1. Ensure lab data directory exists
+# 1. Data directory
 mkdir -p "$LAB_DIR"
 
-# 2. Write Slide 4 bitcoin.conf if not present
+# 2. bitcoin.conf (Slide 4) - only written if missing
 CONF_FILE="$LAB_DIR/bitcoin.conf"
 if [ ! -f "$CONF_FILE" ]; then
-    echo "Creating $CONF_FILE (Slide 4 configuration)..."
+    echo "Writing $CONF_FILE (Slide 4 config)..."
     cat > "$CONF_FILE" <<'EOF'
 regtest=1
 [regtest]
@@ -20,46 +25,24 @@ fallbackfee=0.0002
 txindex=1
 EOF
 else
-    echo "Configuration $CONF_FILE already present."
+    echo "Config already present: $CONF_FILE"
 fi
 
-
-# 4. Start bitcoind daemon if not already running
-if pgrep -f "bitcoind.*${LAB_DIR}" >/dev/null 2>&1; then
-    echo "Bitcoin Core is already running in regtest mode."
+# 3. Start the node. Idempotent: if RPC already answers, leave it alone.
+#    -daemonwait blocks until the node is initialised and RPC is up (Core v25+).
+if "$BTC" getblockchaininfo >/dev/null 2>&1; then
+    echo "Bitcoin Core already running."
 else
-    echo "Starting Bitcoin Core daemon (Slide 5)..."
-    bitcoind -datadir="$LAB_DIR" -daemon
+    echo "Starting Bitcoin Core (regtest)..."
+    "$BITCOIND" -datadir="$LAB_DIR" -daemonwait
 fi
 
-# 5. Wait for RPC readiness
-echo "Waiting for Bitcoin Core RPC to be responsive..."
-RETRIES=30
-while [ $RETRIES -gt 0 ]; do
-    if "$SCRIPT_DIR/btc" getblockchaininfo >/dev/null 2>&1; then
-        break
-    fi
-    sleep 0.5
-    RETRIES=$((RETRIES - 1))
-done
-
-if [ $RETRIES -eq 0 ]; then
-    echo "WARNING: Timed out waiting for bitcoind RPC."
-else
-    echo "Bitcoin Core RPC is active!"
-fi
-
-# 6. Print welcoming status banner
+# 4. Confirm
 echo ""
 echo "================================================================="
-echo "  Bitcoin Core 31.1 Regtest Workshop Environment Ready!"
-echo "================================================================="
-echo "  Chain:      regtest (private local network)"
-echo "  Datadir:    $LAB_DIR"
-echo "  Command:    btc <rpc-command> (e.g. btc getblockchaininfo)"
-echo "  Reset lab:  ./scripts/reset-lab.sh"
-echo ""
-echo "  You are ready to begin at Slide 6 (createwallet 'lab')."
+echo "  Bitcoin Core 31.1 regtest lab is ready."
+"$BTC" getblockchaininfo | grep -E '"(chain|blocks)"' || true
+echo "  Command:  btc <rpc>          e.g.  btc getblockchaininfo"
+echo "  Reset:    bash scripts/reset-lab.sh"
 echo "================================================================="
 echo ""
-

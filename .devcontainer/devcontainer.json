@@ -4,7 +4,8 @@
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "vscode",
-  "postStartCommand": "bash ./scripts/init-lab.sh",
+  "postStartCommand": "bash ${containerWorkspaceFolder}/scripts/init-lab.sh",
+  "waitFor": "postStartCommand",
   "customizations": {
     "vscode": {
       "settings": {

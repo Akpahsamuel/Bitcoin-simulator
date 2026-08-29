@@ -57,9 +57,8 @@ for arg in "$@"; do
     esac
 done
 
-if pgrep -f "bitcoind.*${DATADIR}" >/dev/null 2>&1; then
-    echo "Bitcoin Core starting"
-    echo "(Notice: bitcoind is already active in the background for $DATADIR)"
+if pgrep -x bitcoind-real >/dev/null 2>&1; then
+    echo "Bitcoin Core is already running for $DATADIR - leaving it running."
     exit 0
 fi
 
