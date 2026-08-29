@@ -26,3 +26,7 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# Workshop deck - kept local, not on GitHub
+IntroToBitcoin-Part2-Workshop.pptx
+*.pptx
