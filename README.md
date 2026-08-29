@@ -1,7 +1,7 @@
 # Bitcoin Workshop: Virtual Lab (Bitcoin Core 31.1)
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Akpahsamuel/Bitcoin-simulator)
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/Akpahsamuel/Bitcoin-simulator)
+<a href="https://codespaces.new/Akpahsamuel/Bitcoin-simulator?quickstart=1" target="_blank" rel="noopener noreferrer"><img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"></a>
+<a href="https://gitpod.io/#https://github.com/Akpahsamuel/Bitcoin-simulator" target="_blank" rel="noopener noreferrer"><img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in Gitpod"></a>
 
 This repository provides a zero-install, pre-configured cloud environment for running the **Intro to Bitcoin · Part 2 — Workshop** (`IntroToBitcoin-Part2-Workshop.pptx`).
 
