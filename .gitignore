@@ -1,10 +1,28 @@
-# Local lab datadir if executed on host
+# --- Runtime lab data (never commit) ---
 btc-lab/
+**/btc-lab/
+*.log
+debug.log
+.cookie
+bitcoind.pid
+wallets/
+*.dat
 
-# OS and Editor files
+# --- Phase 2: web-lab service ---
+node_modules/
+**/node_modules/
+.env
+.env.*
+dist/
+build/
+
+# --- OS / editor cruft ---
 .DS_Store
+**/.DS_Store
 Thumbs.db
 *.swp
 *.swo
 *~
-
+.idea/
+.vscode/*
+!.vscode/extensions.json
