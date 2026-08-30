@@ -201,6 +201,29 @@ Regtest is 100% disposable. Reset back to block height 0 whenever you want:
 ./scripts/reset-lab.sh
 ```
 
+### Experiments to Try:
+- **Spend before maturity:** Mine only 50 blocks instead of 110, then try `sendtoaddress` and observe the error.
+- **Watch change grow:** Send several payments and inspect `btc listunspent`.
+- **Fee adjustments:** Change `fallbackfee` in `bitcoin.conf` and observe mempool fees.
+
+---
+
+## Command Cheatsheet (Slide 18)
+
+| Action | Command | Purpose |
+| :--- | :--- | :--- |
+| **Health Check** | `btc getblockchaininfo` | Verify chain & block height |
+| **Wallet** | `btc createwallet "lab"` | Initialize a keychain |
+| **Address** | `btc getnewaddress` | Generate a new receiving address |
+| **Mine / Fund** | `btc generatetoaddress 110 "$ADDR"` | Mine blocks to mature coinbase rewards |
+| **Balance** | `btc getbalance` | Check spendable total |
+| **Coins (UTXOs)** | `btc listunspent` | View individual unspent outputs |
+| **Send** | `btc sendtoaddress "$DEST" 1.0` | Build, sign & broadcast payment |
+| **Inspect** | `btc getrawtransaction "$TXID" true` | View inputs, outputs, and change |
+| **Mempool** | `btc getrawmempool true` | Inspect unconfirmed transactions |
+| **Confirm** | `btc generatetoaddress 1 "$MINER"` | Mine transaction into a block |
+| **Reset** | `./scripts/reset-lab.sh` | Wipe chain and restart clean |
+
 ---
 
 ## Contributing to Bitcoin Core & Ecosystem
