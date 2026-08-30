@@ -17,10 +17,10 @@ echo "=== Bitcoin Developer Sandbox: Lab Init ==="
 # 1. Data directory
 mkdir -p "$LAB_DIR"
 
-# 2. bitcoin.conf - write if missing
+# 2. bitcoin.conf - write if missing, or refresh if a previous (older) init
+#    left a config without the REST/ZMQ lines this sandbox now needs.
 CONF_FILE="$LAB_DIR/bitcoin.conf"
-if [ ! -f "$CONF_FILE" ]; then
-    echo "Writing $CONF_FILE (RPC, REST, ZMQ enabled)..."
+write_conf() {
     cat > "$CONF_FILE" <<'CONF'
 regtest=1
 server=1
@@ -35,6 +35,14 @@ fallbackfee=0.0002
 zmqpubrawblock=tcp://0.0.0.0:28332
 zmqpubrawtx=tcp://0.0.0.0:28333
 CONF
+}
+if [ ! -f "$CONF_FILE" ]; then
+    echo "Writing $CONF_FILE (RPC, REST, ZMQ enabled)..."
+    write_conf
+elif ! grep -q '^zmqpubrawblock=' "$CONF_FILE"; then
+    echo "Existing $CONF_FILE is missing REST/ZMQ settings - refreshing (old copy -> bitcoin.conf.bak)..."
+    cp "$CONF_FILE" "$CONF_FILE.bak"
+    write_conf
 else
     echo "Config already present: $CONF_FILE"
 fi

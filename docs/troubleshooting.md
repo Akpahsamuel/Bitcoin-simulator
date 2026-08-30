@@ -13,7 +13,7 @@ Insufficient funds
 ```
 
 ### Cause
-In Bitcoin consensus rules (BIP 34 / standard coinbase rule), **newly mined coins (block subsidy + transaction fees) cannot be spent until they have reached 100 confirmations**. This rule prevents reorganization race conditions where spent coinbase outputs vanish if an alternate chain tip wins.
+Bitcoin's `COINBASE_MATURITY` consensus rule means **newly mined coins (block subsidy + transaction fees) cannot be spent until they are 100 blocks deep** (so block N's reward is spendable once the chain reaches height N+100). This prevents reorganization race conditions where spent coinbase outputs vanish if an alternate chain tip wins.
 
 ### Solution
 In regtest mode, always mine **at least 101 blocks** to mature the initial coinbase reward:
