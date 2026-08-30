@@ -30,3 +30,11 @@ Thumbs.db
 # Workshop deck - kept local, not on GitHub
 IntroToBitcoin-Part2-Workshop.pptx
 *.pptx
+
+# Study Guides (Mastering Bitcoin & Mastering Lightning)
+bitcoinbook/
+lnbook/
+
+# Internal plans
+plan.md
+
