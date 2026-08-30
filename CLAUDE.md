@@ -24,8 +24,9 @@ The full roadmap lives in `plan.md` (maintainer-local, git-ignored). Treat
 | Path | Purpose | Tracked? |
 | :-- | :-- | :-- |
 | `README.md` | Repo **aim** only — what it is, quick start, endpoints, roadmap, contributing | ✅ |
+| `AGENT.md` | Startup directive for AI assistants to read `CLAUDE.md` | ✅ |
 | `CONTRIBUTING.md` | PR + commit-signing workflow | ✅ |
-| `LICENSE` | MIT, `Copyright (c) 2026 Akpahsamuel` | ✅ (to add) |
+| `LICENSE` | MIT, `Copyright (c) 2026 Akpahsamuel` | ✅ |
 | `.devcontainer/` | Dockerfile + `devcontainer.json` (Codespaces / VS Code) | ✅ |
 | `.gitpod.yml` | Gitpod entrypoint, reuses the devcontainer Dockerfile | ✅ (to add) |
 | `scripts/` | `btc` wrapper, `init-lab.sh`, `reset-lab.sh`, `test-examples.sh` | ✅ |
