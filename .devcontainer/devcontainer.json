@@ -1,17 +1,42 @@
 {
-  "name": "Bitcoin Core 31.1 Workshop Lab",
+  "name": "Bitcoin Developer Sandbox & Starter Kit",
   "build": {
     "dockerfile": "Dockerfile"
   },
   "remoteUser": "vscode",
+  "forwardPorts": [18443, 28332, 28333, 18444],
+  "portsAttributes": {
+    "18443": {
+      "label": "Bitcoin Core JSON-RPC & REST",
+      "onAutoForward": "notify"
+    },
+    "28332": {
+      "label": "Bitcoin Core ZMQ (pubrawblock)",
+      "onAutoForward": "silent"
+    },
+    "28333": {
+      "label": "Bitcoin Core ZMQ (pubrawtx)",
+      "onAutoForward": "silent"
+    },
+    "18444": {
+      "label": "Bitcoin Core P2P Wire",
+      "onAutoForward": "silent"
+    }
+  },
   "postStartCommand": "bash ${containerWorkspaceFolder}/scripts/init-lab.sh",
   "waitFor": "postStartCommand",
   "customizations": {
     "vscode": {
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
-      }
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "dbaeumer.vscode-eslint",
+        "rust-lang.rust-analyzer",
+        "golang.go"
+      ]
     }
   }
 }
-
