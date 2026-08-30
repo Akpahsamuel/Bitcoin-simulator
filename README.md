@@ -20,10 +20,8 @@ This repository turns concepts from **Mastering Bitcoin (3rd Edition)** and **Ma
 - [Sandbox Architecture & Endpoints](#sandbox-architecture--endpoints)
 - [Study Guides & Book References](#study-guides--book-references)
 - [Example Projects Roadmap (`examples/`)](#example-projects-roadmap)
-- [Hands-On Workshop Lab (Fast-Track)](#hands-on-workshop-lab-fast-track)
 - [Contributing to Bitcoin Core & Ecosystem](#contributing-to-bitcoin-core--ecosystem)
 - [Contributing to This Repository](#contributing-to-this-repository)
-- [Command Cheatsheet](#command-cheatsheet)
 
 ---
 
@@ -120,12 +118,13 @@ Andreas M. Antonopoulos, Olaoluwa Osuntokun & René Pickhardt — [full reposito
 
 ## Example Projects Roadmap
 
-> 🚧 **Status:** the example suite is under construction. The [workshop lab](#hands-on-workshop-lab-fast-track) below is fully working today.
+> 🚧 **Status:** the language example suite is under construction. `00-cli-workshop/` (no code, `bitcoin-cli` only) works today.
 
-Each project targets one core protocol primitive. **Python** and **TypeScript** are the reference implementations (all six); **Rust** and **Go** ship `01-rpc-client` plus templates so the remaining ports are straightforward contributions.
+Each project targets one core protocol primitive. **Python** and **TypeScript** are the reference implementations (all six coded examples); **Rust** and **Go** ship `01-rpc-client` plus templates so the remaining ports are straightforward contributions.
 
 ```
 examples/
+├── 00-cli-workshop/       # No code: from a fresh node to a confirmed tx using bitcoin-cli
 ├── 01-rpc-client/         # Query node status, mine blocks, manage balances via JSON-RPC + REST
 ├── 02-keys-and-addresses/ # BIP39 mnemonics, BIP32 HD derivation, Native SegWit (BIP84) & Taproot (BIP86)
 ├── 03-raw-transactions/   # Coin selection, raw tx serialization, witness construction, fee management
@@ -134,88 +133,15 @@ examples/
 └── 06-zmq-listener/       # Real-time event streaming backend for blocks & mempool transactions
 ```
 
-Each example lives at `examples/<NN-name>/<language>/` and reads its connection settings from a shared `.env` (generated from `.env.example` by `init-lab.sh`).
+Coded examples live at `examples/<NN-name>/<language>/` and read their connection settings from a shared `.env` (generated from `.env.example` by `init-lab.sh`).
 
-### Running the Example Suites
+**New to `bitcoin-cli`?** Start with [`examples/00-cli-workshop/`](examples/00-cli-workshop/README.md) — a 10-minute, no-code walkthrough from a fresh node to a confirmed transaction.
+
+### Running the Coded Examples
 Once an example is available, run it directly (e.g. `python main.py`, `npm start`, `cargo run`, `go run .`) or run the whole suite:
 ```bash
 bash scripts/test-examples.sh
 ```
-
----
-
-## Hands-On Workshop Lab (Fast-Track)
-
-New to the command line? This 10-minute crash course takes you from a fresh node to a confirmed transaction. Every step works today.
-
-### Step 1: Health Check
-```bash
-btc getblockchaininfo
-```
-
-### Step 2: Create a Test Wallet
-```bash
-btc createwallet "lab"
-```
-
-### Step 3: Generate a Receiving Address
-```bash
-ADDR=$(btc getnewaddress)
-echo $ADDR
-```
-
-### Step 4: Mine Blocks to Mature Subsidy (Coinbase Maturity)
-```bash
-btc generatetoaddress 110 "$ADDR"
-```
-> *Why 110 blocks?* Mining rewards cannot be spent until they are 100 blocks deep. Mining 110 blocks matures the first 10 block rewards (10 × 50 BTC = 500 BTC).
-
-### Step 5: Inspect Balance vs. Discrete Coins (UTXOs)
-```bash
-btc getbalance
-btc listunspent
-```
-> *The UTXO Model:* Bitcoin has no "balance" table in the ledger. It tracks discrete Unspent Transaction Outputs (UTXOs). Your balance is simply the sum of all UTXOs your keys control.
-
-### Step 6: Build, Sign & Broadcast a Transaction
-```bash
-DEST=$(btc getnewaddress)
-TXID=$(btc sendtoaddress "$DEST" 1.0)
-echo "Transaction ID: $TXID"
-```
-
-### Step 7: Inspect the Raw Transaction & Mempool
-```bash
-# View inputs (vin), recipient output, change output, and implicit fee
-btc getrawtransaction "$TXID" true
-
-# Inspect the waiting room for unconfirmed transactions
-btc getrawmempool true
-```
-
-### Step 8: Confirm into a Block & Bury Deep
-```bash
-MINER=$(btc getnewaddress)
-btc generatetoaddress 1 "$MINER"
-
-# Confirmations = 1
-btc gettransaction "$TXID" | grep confirmations
-
-# Mine 5 more blocks to reach standard settlement depth (6 confirmations)
-btc generatetoaddress 5 "$MINER"
-btc gettransaction "$TXID" | grep confirmations
-```
-
-### Reset the Lab Cleanly Anytime
-Regtest is 100% disposable. Reset back to block height 0 whenever you want:
-```bash
-./scripts/reset-lab.sh
-```
-
-### Experiments to Try:
-- **Spend before maturity:** Mine only 50 blocks instead of 110, then try `sendtoaddress` and observe the error.
-- **Watch change grow:** Send several payments and inspect `btc listunspent`.
-- **Fee adjustments:** Change `fallbackfee` in `bitcoin.conf` and observe mempool fees.
 
 ---
 
@@ -244,20 +170,3 @@ We enthusiastically welcome contributions from developers worldwide!
 > 2. **Verified Commits Required**: **Every commit in your PR must be cryptographically signed (GPG or SSH).** Unsigned commits will fail branch protection checks and block merging.
 
 Please read [**CONTRIBUTING.md**](CONTRIBUTING.md) for full instructions on setting up SSH/GPG commit signing and submitting PRs.
-
----
-
-## Command Cheatsheet
-
-| Action | Command | Description |
-| :--- | :--- | :--- |
-| **Node Info** | `btc getblockchaininfo` | Chain name, block count, headers |
-| **Mining** | `btc generatetoaddress <n> <addr>` | Mine `<n>` blocks immediately |
-| **Wallet** | `btc createwallet <name>` | Create a new descriptor wallet |
-| **Address** | `btc getnewaddress` | Derive a fresh receiving address |
-| **Balance** | `btc getbalance` | Total spendable balance |
-| **UTXOs** | `btc listunspent` | List unspent outputs with amounts & confirmations |
-| **Send** | `btc sendtoaddress <addr> <amount>` | Construct, sign, and broadcast payment |
-| **Inspect Tx** | `btc getrawtransaction <txid> true` | Decode inputs, outputs, scripts, and fees |
-| **Mempool** | `btc getrawmempool true` | View pending unconfirmed transactions |
-| **Reset** | `./scripts/reset-lab.sh` | Wipe chain state and restart node cleanly |
