@@ -115,12 +115,15 @@ Connecting from your host machine (outside the Docker container) to `http://loca
 - Dev container ports were not forwarded in `devcontainer.json`.
 
 ### Solution
-1. **Ensure `bitcoin.conf` allows container subnet connections**:
+1. **Ensure `bitcoin.conf` allows container subnet connections.** These are
+   network-specific options — Bitcoin Core **refuses to start** if they sit in the
+   global section on regtest, so they must go **under `[regtest]`**:
    ```ini
+   [regtest]
    rpcbind=0.0.0.0
    rpcallowip=0.0.0.0/0
    ```
-   *(Note: Safe only in isolated regtest containers without public network exposure).*
+   *(Safe only in isolated regtest containers without public network exposure.)*
 2. **Ensure forwarded ports in `.devcontainer/devcontainer.json`**:
    Verify port `18443`, `28332`, `28333`, and `18444` are listed in `forwardPorts`.
 3. **Always supply HTTP Basic Auth**:
