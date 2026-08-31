@@ -21,6 +21,7 @@ This repository turns concepts from **Mastering Bitcoin (3rd Edition)** and **Ma
 - [Study Guides & Book References](#study-guides--book-references)
 - [Example Projects Roadmap (`examples/`)](#example-projects-roadmap)
 - [Contributing to Bitcoin Core & Ecosystem](#contributing-to-bitcoin-core--ecosystem)
+- [Troubleshooting & FAQs](#troubleshooting--faqs)
 - [Contributing to This Repository](#contributing-to-this-repository)
 
 ---
@@ -157,6 +158,17 @@ One of the primary purposes of this sandbox is to prepare developers to contribu
    - Implement custom signers, hardware wallet bridges, or indexers using the ZMQ and REST interfaces.
 3. **Lightning & L2 Protocols**:
    - Use this node as the local L1 backbone for Core Lightning (`lightningd`), LND, or Eclair nodes.
+
+---
+
+## Troubleshooting & FAQs
+
+Running into issues like 0 spendable balance, wallet loading errors, or silent ZMQ streams?
+See the [**Troubleshooting Guide**](docs/troubleshooting.md) for quick solutions:
+- **Coinbase Maturity**: Why newly mined block rewards need 100 confirmations before they can be spent.
+- **Wallet Not Loaded**: Handling Bitcoin Core v21+ multi-wallet endpoints (`/wallet/<name>`).
+- **ZeroMQ Streams**: Subscribing to `rawblock` / `rawtx` and debugging event delivery.
+- **Dev Container Port Access**: Accessing RPC from your host environment.
 
 ---
 

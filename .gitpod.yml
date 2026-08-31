@@ -1,0 +1,22 @@
+# Gitpod Configuration
+# Reuses the devcontainer Dockerfile for a consistent developer environment.
+image:
+  file: .devcontainer/Dockerfile
+
+tasks:
+  - name: Initialize Bitcoin Regtest Sandbox
+    command: bash scripts/init-lab.sh
+
+ports:
+  - port: 18443
+    name: Bitcoin JSON-RPC & REST
+    onOpen: notify
+  - port: 28332
+    name: Bitcoin ZMQ (pubrawblock)
+    onOpen: ignore
+  - port: 28333
+    name: Bitcoin ZMQ (pubrawtx)
+    onOpen: ignore
+  - port: 18444
+    name: Bitcoin P2P Wire
+    onOpen: ignore
