@@ -17,21 +17,25 @@ echo "=== Bitcoin Developer Sandbox: Lab Init ==="
 # 1. Data directory
 mkdir -p "$LAB_DIR"
 
-# 2. bitcoin.conf - write if missing, or refresh if a previous (older) init
-#    left a config without the REST/ZMQ lines this sandbox now needs.
+# 2. bitcoin.conf - write if missing, or refresh if an earlier init wrote a
+#    different layout. Network-specific options (rpcbind, rpcallowip, zmqpub*,
+#    fallbackfee) MUST sit under [regtest] or bitcoind refuses to start.
 CONF_FILE="$LAB_DIR/bitcoin.conf"
+CONF_REV="rev3"
 write_conf() {
-    cat > "$CONF_FILE" <<'CONF'
+    cat > "$CONF_FILE" <<CONF
+# Bitcoin Developer Sandbox - regtest config ($CONF_REV)
 regtest=1
 server=1
 rest=1
 txindex=1
 rpcuser=bitcoinrpc
 rpcpassword=bitcoinrpcpassword
-rpcbind=0.0.0.0
-rpcallowip=0.0.0.0/0
+
 [regtest]
 fallbackfee=0.0002
+rpcbind=0.0.0.0
+rpcallowip=0.0.0.0/0
 zmqpubrawblock=tcp://0.0.0.0:28332
 zmqpubrawtx=tcp://0.0.0.0:28333
 CONF
@@ -39,8 +43,8 @@ CONF
 if [ ! -f "$CONF_FILE" ]; then
     echo "Writing $CONF_FILE (RPC, REST, ZMQ enabled)..."
     write_conf
-elif ! grep -q '^zmqpubrawblock=' "$CONF_FILE"; then
-    echo "Existing $CONF_FILE is missing REST/ZMQ settings - refreshing (old copy -> bitcoin.conf.bak)..."
+elif ! grep -q "regtest config ($CONF_REV)" "$CONF_FILE"; then
+    echo "Existing $CONF_FILE has an older layout - refreshing (old copy -> bitcoin.conf.bak)..."
     cp "$CONF_FILE" "$CONF_FILE.bak"
     write_conf
 else

@@ -173,13 +173,14 @@ BITCOIN_ZMQ_RAWBLOCK=tcp://127.0.0.1:28332
 BITCOIN_ZMQ_RAWTX=tcp://127.0.0.1:28333
 ```
 
-`bitcoin.conf` (written by `init-lab.sh`): `regtest=1`, `server=1`, `rest=1`,
-`txindex=1`, `rpcuser`/`rpcpassword` (plaintext is deliberate — self-documenting
-for a throwaway regtest node; the clients send it as HTTP Basic auth from `.env`),
-`rpcbind=0.0.0.0`, `rpcallowip=0.0.0.0/0` (safe: node reachable only via localhost
-port-forwards), and under `[regtest]`: `fallbackfee=0.0002`,
-`zmqpubrawblock`/`zmqpubrawtx` on `0.0.0.0`. `init-lab.sh` refreshes an older
-config that predates the REST/ZMQ lines (old copy saved as `bitcoin.conf.bak`).
+`bitcoin.conf` (written by `init-lab.sh`). Global section: `regtest=1`, `server=1`,
+`rest=1`, `txindex=1`, `rpcuser`/`rpcpassword` (plaintext is deliberate —
+self-documenting for a throwaway regtest node; clients send it as HTTP Basic auth
+from `.env`). **Under `[regtest]`** (Core rejects these in the global section on
+regtest): `fallbackfee=0.0002`, `rpcbind=0.0.0.0`, `rpcallowip=0.0.0.0/0` (safe —
+node reachable only via localhost port-forwards), `zmqpubrawblock`/`zmqpubrawtx`
+on `0.0.0.0`. The heredoc carries a `rev` marker; `init-lab.sh` rewrites any
+older layout (old copy saved as `bitcoin.conf.bak`).
 
 **Responsibilities:**
 - `init-lab.sh` — write `bitcoin.conf`, generate `.env` from `.env.example`,
