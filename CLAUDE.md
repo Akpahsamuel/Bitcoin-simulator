@@ -85,7 +85,7 @@ being asked. When you add a file whose name matches an ignore glob (e.g.
 | D2 | Lightning = **conceptual mapping only** in v1, no runnable labs |
 | D3 | Tests = **run-and-exit-code** with `✓` / `✗` output; **no** pytest/vitest |
 | D4 | **Devcontainer-first**; local run is best-effort, CI gates the container path |
-| D5 | Languages: **Python + TypeScript** full (all 6); **Rust + Go** ship `01` + templates; any language welcome via the Port Contract |
+| D5 | Languages: **Python + TypeScript + Rust + Go (Full 4-Language Coverage)** across all 6 labs (`01`–`06`) |
 | D6 | **Keep Gitpod** — thin `.gitpod.yml` over the devcontainer Dockerfile |
 | D7 | **MIT** license, holder `Akpahsamuel`, year 2026 |
 
@@ -140,8 +140,10 @@ examples/
   PEP 668 "externally managed" and rejects a bare `pip install`.
 - **TypeScript**: `bitcoinjs-lib` v6 with `@bitcoinerlab/secp256k1` via
   `initEccLib` for Taproot; `bip39`, `bip32`, `zeromq`.
-- **Rust**: `rust-bitcoin` + `bitcoincore-rpc` (or `corepc-client`).
-- **Go**: `btcsuite/btcd/rpcclient` + `btcutil`, `pebbe/zmq4`.
+- **Rust**: `rust-bitcoin` (`bitcoin` crate — `script`, `sighash`, `psbt`) +
+  `bitcoincore-rpc` (or `corepc-client`); `zeromq` crate for `06`.
+- **Go**: `btcsuite/btcd/rpcclient` + `btcd/btcutil` + `btcd/txscript`
+  (+ `btcd/btcec` for keys); `pebbe/zmq4` for `06`.
 
 ---
 
