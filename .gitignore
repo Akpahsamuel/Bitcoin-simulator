@@ -8,14 +8,21 @@ bitcoind.pid
 wallets/
 *.dat
 
-# --- Phase 2: web-lab service ---
+# --- Language build & cache artifacts ---
 node_modules/
 **/node_modules/
+dist/
+build/
+.venv/
+**/.venv/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+target/
+**/target/
 .env
 .env.*
 !.env.example
-dist/
-build/
 
 # --- OS / editor cruft ---
 .DS_Store
