@@ -157,12 +157,21 @@ cd examples && npm install && cd ..
 # Rust & Go — no setup; `cargo`/`go` fetch pinned deps on first run
 ```
 
-Then run a single example (see each `examples/<NN-name>/README.md` for the exact
-per-language command) or the whole suite:
+You do **not** need every toolchain — set up only the language you want and run
+just that one. See each `examples/<NN-name>/README.md` for the exact single
+command per language, or drive the suite with a filter:
 
 ```bash
-bash scripts/test-examples.sh
+bash scripts/test-examples.sh                      # every language, every lab
+bash scripts/test-examples.sh rust                 # just Rust, every lab
+bash scripts/test-examples.sh --lang python,go     # Python + Go
+bash scripts/test-examples.sh --lang python -e 03  # Python, lab 03 only
+bash scripts/test-examples.sh --list               # show discovered targets
+bash scripts/test-examples.sh --help
 ```
+
+Languages you skip are simply not run (a missing toolchain is reported as
+`SKIP`, not a failure).
 
 ---
 

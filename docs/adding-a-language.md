@@ -108,12 +108,21 @@ lab's `go.mod`. Commit the lockfile in every case
 2. `03-raw-transactions`: Query UTXOs with `listunspent`, compute transaction vsize & sat/vB fees, build raw transaction with `createrawtransaction`, sign with wallet (`signrawtransactionwithwallet`), verify with `testmempoolaccept`, broadcast with `sendrawtransaction`, and confirm via mining.
 
 ### Step 3.4: Integrate with the Test Runner
-Update [`scripts/test-examples.sh`](../scripts/test-examples.sh) to add execution support for `<lang>`:
-```bash
-<new-lang>)
-    (cd "$lang_dir" && <run_command>) > /tmp/test_output.log 2>&1 || run_status=$?
-    ;;
-```
+In [`scripts/test-examples.sh`](../scripts/test-examples.sh):
+
+1. Append your language to `ALL_LANGS` (this also makes it selectable via
+   `--lang <new-lang>`).
+2. Add a `case` arm that runs the entry file, skipping with `SKIP` if the
+   toolchain is absent:
+   ```bash
+   <new-lang>)
+       command -v <tool> >/dev/null 2>&1 || { echo -e "${YELLOW}SKIP (<tool> not found)${NC}"; SKIPPED=$((SKIPPED + 1)); continue; }
+       (cd "$lang_dir" && <run_command>) > /tmp/test_output.log 2>&1 || run_status=$?
+       ;;
+   ```
+
+Contributors can then run only your port with
+`bash scripts/test-examples.sh <new-lang>`.
 
 ### Step 3.5: Update Documentation & Dockerfile
 - Add the language runtime and build dependencies to [`.devcontainer/Dockerfile`](../.devcontainer/Dockerfile).
