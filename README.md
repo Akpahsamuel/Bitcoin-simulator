@@ -119,9 +119,12 @@ Andreas M. Antonopoulos, Olaoluwa Osuntokun & René Pickhardt — [full reposito
 
 ## Example Projects Roadmap
 
-> 🚧 **Status:** the language example suite is under construction. `00-cli-workshop/` (no code, `bitcoin-cli` only) works today.
+> 🚧 **Status:** `00-cli-workshop/` (no code) plus labs `01`–`03` in **all four
+> languages** are live and pass `scripts/test-examples.sh` against the regtest
+> node. Labs `04`–`06` are not yet implemented.
 
-Each project targets one core protocol primitive. **Python** and **TypeScript** are the reference implementations (all six coded examples); **Rust** and **Go** ship `01-rpc-client` plus templates so the remaining ports are straightforward contributions.
+Each project targets one core protocol primitive. **Python** and **TypeScript**
+are the reference implementations; **Rust** and **Go** track them lab-for-lab.
 
 ```
 examples/
@@ -139,7 +142,24 @@ Coded examples live at `examples/<NN-name>/<language>/` and read their connectio
 **New to `bitcoin-cli`?** Start with [`examples/00-cli-workshop/`](examples/00-cli-workshop/README.md) — a 10-minute, no-code walkthrough from a fresh node to a confirmed transaction.
 
 ### Running the Coded Examples
-Once an example is available, run it directly (e.g. `python main.py`, `npm start`, `cargo run`, `go run .`) or run the whole suite:
+
+The container starts with Bitcoin Core running, but the per-language example
+dependencies are **not** pre-installed (in Codespaces, Gitpod, or a local Dev
+Container alike). Run this one-time setup from the repo root first:
+
+```bash
+# Python — virtualenv + pinned deps (--copies works on every filesystem)
+python -m venv --copies .venv && .venv/bin/pip install -r examples/python/requirements.txt
+
+# TypeScript — npm workspace, deps hoist to examples/node_modules
+cd examples && npm install && cd ..
+
+# Rust & Go — no setup; `cargo`/`go` fetch pinned deps on first run
+```
+
+Then run a single example (see each `examples/<NN-name>/README.md` for the exact
+per-language command) or the whole suite:
+
 ```bash
 bash scripts/test-examples.sh
 ```
