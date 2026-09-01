@@ -6,7 +6,7 @@ This lab demonstrates how client backends authenticate with Bitcoin Core, query 
 
 ## Educational Companion
 - **Mastering Bitcoin (3rd Edition)**: [Chapter 3: Bitcoin Core: The Reference Implementation](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch03_bitcoin-core.adoc)
-- **Mastering the Lightning Network**: [Chapter 1: Introduction](https://github.com/lnbook/lnbook/blob/develop/ch01_intro.adoc)
+- **Mastering the Lightning Network**: [Chapter 1: Introduction](https://github.com/lnbook/lnbook/blob/develop/01_introduction.asciidoc)
 
 ---
 
@@ -21,14 +21,19 @@ This lab demonstrates how client backends authenticate with Bitcoin Core, query 
 
 ## How to Run
 
+Assumes a running regtest node (`bash scripts/init-lab.sh`). One-time setup from
+the repo root: Python — `python -m venv --copies .venv && .venv/bin/pip install -r
+examples/python/requirements.txt`; TypeScript — `cd examples && npm install`;
+Rust/Go fetch their pinned deps on first build.
+
 ### Python
 ```bash
-python examples/01-rpc-client/python/main.py
+.venv/bin/python examples/01-rpc-client/python/main.py
 ```
 
 ### TypeScript
 ```bash
-npx tsx examples/01-rpc-client/typescript/main.ts
+cd examples && npx tsx 01-rpc-client/typescript/main.ts
 ```
 
 ### Rust

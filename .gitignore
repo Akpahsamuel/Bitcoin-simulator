@@ -20,6 +20,9 @@ __pycache__/
 *.py[cod]
 target/
 **/target/
+# Compiled Go example binaries (`go build` names the output after the dir → examples/NN/go/go)
+examples/*/go/go
+examples/*/go/main
 .env
 .env.*
 !.env.example

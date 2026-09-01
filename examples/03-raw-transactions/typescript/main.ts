@@ -38,7 +38,9 @@ async function main() {
       throw new Error("No spendable UTXOs found in wallet");
     }
 
-    const utxo = unspent[0];
+    // Pick the largest UTXO — the shared `lab` wallet also holds small change
+    // outputs from earlier lab runs, so the first entry is not reliably big enough.
+    const utxo = unspent.reduce((a, b) => (b.amount > a.amount ? b : a));
     console.log(`✓ (txid: ${utxo.txid.substring(0, 16)}..., vout: ${utxo.vout}, amount: ${utxo.amount} BTC)`);
 
     // Step 3: Construct raw transaction

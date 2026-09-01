@@ -1,8 +1,0 @@
-[workspace]
-resolver = "2"
-members = [
-    "common",
-    "../01-rpc-client/rust",
-    "../02-keys-and-addresses/rust",
-    "../03-raw-transactions/rust",
-]

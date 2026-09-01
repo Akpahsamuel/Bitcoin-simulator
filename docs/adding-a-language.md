@@ -80,6 +80,18 @@ Create `examples/<lang>/` to host common utilities:
 1. An RPC helper that parses `.env` and issues HTTP JSON-RPC calls (with Basic Authentication) and REST queries.
 2. A `bootstrap` helper that loads or creates the `lab` wallet and mines 101 blocks to achieve spendable funds.
 
+**Dependency resolution.** A lab entry file lives at `examples/<NN-name>/<lang>/`,
+outside the `examples/<lang>/` toolchain root, so third-party packages must
+resolve from an **ancestor** of the lab dir. For TypeScript this is done with an
+npm workspace rooted at [`examples/package.json`](../examples/package.json)
+(`"workspaces": ["typescript"]`, `"type": "module"`): `cd examples && npm install`
+hoists every dependency to `examples/node_modules`, which every
+`examples/<NN>/typescript/main.ts` can then import. Rust uses `path`
+dependencies on `../../rust/common` (each lab crate is standalone with its own
+committed `Cargo.lock`); Go uses a `replace` directive to `../../go` in each
+lab's `go.mod`. Commit the lockfile in every case
+(`package-lock.json` / `Cargo.lock` / `go.sum`) — the sandbox is deterministic.
+
 ### Step 3.2: Implement Lab 01 (`01-rpc-client`)
 1. Create directory `examples/01-rpc-client/<lang>/`.
 2. Add your entry file `main.<ext>`.

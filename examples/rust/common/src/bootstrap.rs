@@ -1,5 +1,5 @@
 use crate::rpc::{get_config, BitcoinRPC};
-use serde_json::{json, Value};
+use serde_json::json;
 
 pub struct BootstrapResult {
     pub rpc: BitcoinRPC,

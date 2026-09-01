@@ -6,7 +6,7 @@ This lab takes you under the hood of Bitcoin transaction construction. Rather th
 
 ## Educational Companion
 - **Mastering Bitcoin (3rd Edition)**: [Chapter 6: Transactions](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch06_transactions.adoc)
-- **Mastering the Lightning Network**: [Chapter 8: Routing and Pathfinding](https://github.com/lnbook/lnbook/blob/develop/ch08_routing.adoc)
+- **Mastering the Lightning Network**: [Chapter 8: Routing & HTLCs](https://github.com/lnbook/lnbook/blob/develop/08_routing_htlcs.asciidoc)
 
 ---
 
@@ -22,14 +22,19 @@ This lab takes you under the hood of Bitcoin transaction construction. Rather th
 
 ## How to Run
 
+Assumes a running regtest node (`bash scripts/init-lab.sh`). One-time setup from
+the repo root: Python — `python -m venv --copies .venv && .venv/bin/pip install -r
+examples/python/requirements.txt`; TypeScript — `cd examples && npm install`;
+Rust/Go fetch their pinned deps on first build.
+
 ### Python
 ```bash
-python examples/03-raw-transactions/python/main.py
+.venv/bin/python examples/03-raw-transactions/python/main.py
 ```
 
 ### TypeScript
 ```bash
-npx tsx examples/03-raw-transactions/typescript/main.ts
+cd examples && npx tsx 03-raw-transactions/typescript/main.ts
 ```
 
 ### Rust

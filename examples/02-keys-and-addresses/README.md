@@ -9,7 +9,7 @@ This lab explores cryptographic key derivation in Bitcoin — from a BIP39 mnemo
   - [Chapter 4: Keys and Addresses](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch04_keys.adoc)
   - [Chapter 5: Wallets](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch05_wallets.adoc)
 - **Mastering the Lightning Network**:
-  - [Chapter 4: Lightning Network Architecture](https://github.com/lnbook/lnbook/blob/develop/ch04_node_architecture.adoc)
+  - [Chapter 6: Lightning Architecture](https://github.com/lnbook/lnbook/blob/develop/06_lightning_architecture.asciidoc)
 
 ---
 
@@ -26,14 +26,19 @@ This lab explores cryptographic key derivation in Bitcoin — from a BIP39 mnemo
 
 ## How to Run
 
+Assumes a running regtest node (`bash scripts/init-lab.sh`). One-time setup from
+the repo root: Python — `python -m venv --copies .venv && .venv/bin/pip install -r
+examples/python/requirements.txt`; TypeScript — `cd examples && npm install`;
+Rust/Go fetch their pinned deps on first build.
+
 ### Python
 ```bash
-python examples/02-keys-and-addresses/python/main.py
+.venv/bin/python examples/02-keys-and-addresses/python/main.py
 ```
 
 ### TypeScript
 ```bash
-npx tsx examples/02-keys-and-addresses/typescript/main.ts
+cd examples && npx tsx 02-keys-and-addresses/typescript/main.ts
 ```
 
 ### Rust
@@ -49,15 +54,20 @@ cd examples/02-keys-and-addresses/go && go run .
 ---
 
 ## Expected Output
+
+Derived from the canonical `abandon abandon … about` mnemonic on regtest; every
+language port asserts these exact values (and cross-checks the fingerprint
+`73c5da0a`).
+
 ```text
 === Lab 02: Keys & Addresses ===
-[Step 1] Bootstrap lab wallet & RPC connection ... ✓
-[Step 2] Generate BIP39 mnemonic & binary seed ... ✓ (12 words)
-[Step 3] Derive BIP32 master root key ... ✓
-[Step 4] Derive BIP44 Legacy P2PKH address ... ✓ (addr: m...)
-[Step 5] Derive BIP84 Native SegWit P2WPKH address ... ✓ (addr: bcrt1q...)
-[Step 6] Derive BIP86 Taproot P2TR address ... ✓ (addr: bcrt1p...)
-[Step 7] Validate derived addresses with Bitcoin Core node ... ✓
+[Step 1] Bootstrapping lab wallet & RPC connection ... ✓
+[Step 2] Generating BIP39 mnemonic & root seed ... ✓ (12 words, 64-byte seed)
+[Step 3] Deriving BIP32 root key ... ✓ (fingerprint: 73c5da0a)
+[Step 4] Deriving BIP44 Legacy P2PKH address ... ✓ (mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV)
+[Step 5] Deriving BIP84 SegWit P2WPKH address ... ✓ (bcrt1q6rz28mcfaxtmd6v789l9rrlrusdprr9pz3cppk)
+[Step 6] Deriving BIP86 Taproot P2TR address ... ✓ (bcrt1p8wpt9v4frpf3tkn0srd97pksgsxc5hs52lafxwru9kgeephvs7rqjeprhg)
+[Step 7] Validating addresses against Bitcoin Core node ... ✓ (all addresses valid)
 ======================================================
 Result: PASS ✓
 ======================================================

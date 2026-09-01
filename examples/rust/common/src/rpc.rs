@@ -1,7 +1,7 @@
 use reqwest::blocking::Client;
 use serde_json::{json, Value};
 use std::env;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 pub struct SandboxConfig {
     pub rpc_url: String,

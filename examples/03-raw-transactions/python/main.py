@@ -34,8 +34,9 @@ def main():
         if not unspent:
             raise RuntimeError("No spendable UTXOs found in wallet")
 
-        # Pick a spendable UTXO
-        utxo = unspent[0]
+        # Pick the largest UTXO — the shared `lab` wallet also holds small change
+        # outputs from earlier lab runs, so the first entry is not reliably big enough.
+        utxo = max(unspent, key=lambda u: u["amount"])
         utxo_txid = utxo["txid"]
         utxo_vout = utxo["vout"]
         utxo_amount = Decimal(str(utxo["amount"]))

@@ -41,7 +41,16 @@ fn main() {
         process::exit(1);
     });
 
-    let utxo = &unspent[0];
+    // Pick the largest UTXO — the shared `lab` wallet also holds small change
+    // outputs from earlier lab runs, so the first entry is not reliably big enough.
+    let utxo = unspent
+        .iter()
+        .max_by(|a, b| {
+            let av = a.get("amount").and_then(|v| v.as_f64()).unwrap_or(0.0);
+            let bv = b.get("amount").and_then(|v| v.as_f64()).unwrap_or(0.0);
+            av.partial_cmp(&bv).unwrap_or(std::cmp::Ordering::Equal)
+        })
+        .unwrap();
     let utxo_txid = utxo.get("txid").and_then(|t| t.as_str()).unwrap_or("");
     let utxo_vout = utxo.get("vout").and_then(|v| v.as_u64()).unwrap_or(0);
     let utxo_amount = utxo.get("amount").and_then(|a| a.as_f64()).unwrap_or(0.0);

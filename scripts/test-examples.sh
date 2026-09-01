@@ -90,14 +90,15 @@ for ex_dir in "$EXAMPLES_DIR"/[0-9][0-9]-*; do
                 ;;
 
             typescript)
-                if command -v npx >/dev/null 2>&1 && [ -f "$REPO_ROOT/examples/typescript/node_modules/.bin/tsx" ]; then
-                    (cd "$REPO_ROOT/examples/typescript" && npx tsx "$lang_dir/main.ts") > /tmp/test_output.log 2>&1 || run_status=$?
-                elif command -v tsx >/dev/null 2>&1; then
-                    (cd "$lang_dir" && tsx main.ts) > /tmp/test_output.log 2>&1 || run_status=$?
+                # Deps are an npm workspace rooted at examples/ — install hoists tsx and
+                # the shared libs to examples/node_modules, which is an ancestor of every
+                # examples/<NN>/typescript/main.ts so bare imports resolve.
+                if [ -f "$EXAMPLES_DIR/node_modules/.bin/tsx" ]; then
+                    (cd "$EXAMPLES_DIR" && node_modules/.bin/tsx "$lang_dir/main.ts") > /tmp/test_output.log 2>&1 || run_status=$?
                 elif command -v npx >/dev/null 2>&1; then
-                    (cd "$lang_dir" && npx --yes tsx main.ts) > /tmp/test_output.log 2>&1 || run_status=$?
+                    (cd "$EXAMPLES_DIR" && npx --yes tsx "$lang_dir/main.ts") > /tmp/test_output.log 2>&1 || run_status=$?
                 else
-                    echo -e "${YELLOW}SKIP (node/npx not found)${NC}"
+                    echo -e "${YELLOW}SKIP (node/npx not found — run: cd examples && npm install)${NC}"
                     SKIPPED=$((SKIPPED + 1))
                     continue
                 fi

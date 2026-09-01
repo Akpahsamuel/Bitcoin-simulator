@@ -44,7 +44,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Pick the largest UTXO — the shared `lab` wallet also holds small change
+	// outputs from earlier lab runs, so the first entry is not reliably big enough.
 	utxo := unspent[0]
+	for _, u := range unspent[1:] {
+		if u.Amount > utxo.Amount {
+			utxo = u
+		}
+	}
 	fmt.Printf("✓ (txid: %s..., vout: %d, amount: %f BTC)\n", utxo.TxID[:16], utxo.Vout, utxo.Amount)
 
 	// Step 3: Construct raw transaction

@@ -1,0 +1,10 @@
+{
+  "name": "bitcoin-sandbox-examples",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "npm workspace root for the Bitcoin Developer Sandbox TypeScript suite. Hoists shared deps to examples/node_modules so examples/<NN>/typescript/main.ts can resolve them.",
+  "workspaces": [
+    "typescript"
+  ]
+}
