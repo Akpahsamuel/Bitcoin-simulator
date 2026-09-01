@@ -1,0 +1,4 @@
+requests==2.32.3
+python-dotenv==1.0.1
+pyzmq==26.2.0
+embit==0.8.0
