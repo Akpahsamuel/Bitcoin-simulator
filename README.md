@@ -143,23 +143,19 @@ Coded examples live at `examples/<NN-name>/<language>/` and read their connectio
 
 ### Running the Coded Examples
 
-The container starts with Bitcoin Core running, but the per-language example
-dependencies are **not** pre-installed (in Codespaces, Gitpod, or a local Dev
-Container alike). Run this one-time setup from the repo root first:
+In a **Codespace or Dev Container** the per-language dependencies are installed
+for you on first build (`scripts/setup-examples.sh` runs as `postCreateCommand`).
+Anywhere else — or to refresh after a dependency bump — run it yourself:
 
 ```bash
-# Python — virtualenv + pinned deps (--copies works on every filesystem)
-python -m venv --copies .venv && .venv/bin/pip install -r examples/python/requirements.txt
-
-# TypeScript — npm workspace, deps hoist to examples/node_modules
-cd examples && npm install && cd ..
-
-# Rust & Go — no setup; `cargo`/`go` fetch pinned deps on first run
+bash scripts/setup-examples.sh      # venv + pinned pip deps, npm workspace,
+                                    # cargo fetch, go mod download — idempotent
 ```
 
-You do **not** need every toolchain — set up only the language you want and run
-just that one. See each `examples/<NN-name>/README.md` for the exact single
-command per language, or drive the suite with a filter:
+Each language is independent: a toolchain you don't have is skipped, not an
+error, so you can set up and run **only the language you prefer**. See each
+`examples/<NN-name>/README.md` for the exact single command per language, or
+drive the suite with a filter:
 
 ```bash
 bash scripts/test-examples.sh                      # every language, every lab

@@ -124,7 +124,8 @@ In [`scripts/test-examples.sh`](../scripts/test-examples.sh):
 Contributors can then run only your port with
 `bash scripts/test-examples.sh <new-lang>`.
 
-### Step 3.5: Update Documentation & Dockerfile
+### Step 3.5: Update Setup, Documentation & Dockerfile
 - Add the language runtime and build dependencies to [`.devcontainer/Dockerfile`](../.devcontainer/Dockerfile).
+- Add a dependency-install stanza for `<lang>` to [`scripts/setup-examples.sh`](../scripts/setup-examples.sh) (guarded by `command -v <tool>` so it stays a no-op where the toolchain is absent). This script is the devcontainer `postCreateCommand` and is run by CI.
 - Document run commands in each lab's `README.md`.
-- Run `bash scripts/test-examples.sh` to confirm all tests execute and pass cleanly.
+- Run `bash scripts/test-examples.sh` to confirm all tests execute and pass cleanly. CI ([`.github/workflows/examples.yml`](../.github/workflows/examples.yml)) runs the same suite inside the devcontainer on every PR.

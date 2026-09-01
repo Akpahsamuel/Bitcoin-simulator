@@ -23,6 +23,7 @@
       "onAutoForward": "silent"
     }
   },
+  "postCreateCommand": "bash ${containerWorkspaceFolder}/scripts/setup-examples.sh",
   "postStartCommand": "bash ${containerWorkspaceFolder}/scripts/init-lab.sh",
   "waitFor": "postStartCommand",
   "customizations": {
