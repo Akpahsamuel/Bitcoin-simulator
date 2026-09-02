@@ -1,0 +1,10 @@
+[package]
+name = "lab-06-zmq-listener"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bitcoin-sandbox-common = { path = "../../rust/common" }
+serde_json = "1.0"
+# Sync libzmq bindings — libzmq3-dev + pkg-config are in the devcontainer.
+zmq = "0.10"

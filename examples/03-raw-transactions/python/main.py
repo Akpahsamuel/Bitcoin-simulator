@@ -8,10 +8,8 @@ import sys
 from decimal import Decimal, ROUND_DOWN
 from pathlib import Path
 
-# Ensure examples/python is in sys.path
-SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parent.parent
-PYTHON_ROOT = REPO_ROOT / "examples" / "python"
+# .../examples/<NN>/python/main.py -> parents[2] == .../examples -> examples/python holds common/
+PYTHON_ROOT = Path(__file__).resolve().parents[2] / "python"
 if str(PYTHON_ROOT) not in sys.path:
     sys.path.insert(0, str(PYTHON_ROOT))
 
