@@ -1,0 +1,9 @@
+[package]
+name = "lab-04-multisig-escrow"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bitcoin-sandbox-common = { path = "../../rust/common" }
+bitcoin = { version = "0.32", features = ["rand", "serde"] }
+serde_json = "1.0"

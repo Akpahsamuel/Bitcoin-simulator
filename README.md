@@ -119,9 +119,9 @@ Andreas M. Antonopoulos, Olaoluwa Osuntokun & René Pickhardt — [full reposito
 
 ## Example Projects Roadmap
 
-> 🚧 **Status:** `00-cli-workshop/` (no code) plus labs `01`–`03` in **all four
+> 🚧 **Status:** `00-cli-workshop/` (no code) plus labs `01`–`04` in **all four
 > languages** are live and pass `scripts/test-examples.sh` against the regtest
-> node. Labs `04`–`06` are not yet implemented.
+> node. Labs `05`–`06` are not yet implemented.
 
 Each project targets one core protocol primitive. **Python** and **TypeScript**
 are the reference implementations; **Rust** and **Go** track them lab-for-lab.
