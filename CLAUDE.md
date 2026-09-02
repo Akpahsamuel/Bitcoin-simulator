@@ -144,7 +144,9 @@ examples/
 - **TypeScript**: `bitcoinjs-lib` v6 with `@bitcoinerlab/secp256k1` via
   `initEccLib` for Taproot; `bip39`, `bip32`, `zeromq`.
 - **Rust**: `rust-bitcoin` (`bitcoin` crate — `script`, `sighash`, `psbt`) +
-  `bitcoincore-rpc` (or `corepc-client`); `zeromq` crate for `06`.
+  `bitcoincore-rpc` (or `corepc-client`); the sync `zmq` crate for `06`
+  (`libzmq3-dev` + `pkg-config` are in the devcontainer — keeps the lab
+  framework-free, no async runtime).
 - **Go**: `btcsuite/btcd/rpcclient` + `btcd/btcutil` + `btcd/txscript`
   (+ `btcd/btcec` for keys); `pebbe/zmq4` for `06`.
 
