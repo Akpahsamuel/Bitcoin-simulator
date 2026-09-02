@@ -1,0 +1,56 @@
+name: examples
+
+# Gates the container path (CLAUDE.md D4): builds the devcontainer image exactly
+# as Codespaces / VS Code would, then runs the full example suite against a live
+# Bitcoin Core regtest node inside it.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - "examples/**"
+      - "scripts/**"
+      - ".devcontainer/**"
+      - ".github/workflows/examples.yml"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: examples-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute lowercase image name
+        id: img
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/devcontainer" >> "$GITHUB_OUTPUT"
+
+      # Cache/push the built image to GHCR only from main (forks lack packages: write).
+      - name: Log in to GHCR
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build devcontainer and run the example suite
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ${{ steps.img.outputs.name }}
+          cacheFrom: ${{ steps.img.outputs.name }}
+          push: ${{ github.event_name == 'push' && 'always' || 'never' }}
+          # postCreateCommand (scripts/setup-examples.sh) installs the per-language
+          # deps during build; postStartCommand isn't run by this action, so start
+          # the node explicitly before the suite.
+          runCmd: |
+            set -e
+            bash scripts/init-lab.sh
+            bash scripts/test-examples.sh

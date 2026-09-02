@@ -1,0 +1,8 @@
+[package]
+name = "lab-03-raw-transactions"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bitcoin-sandbox-common = { path = "../../rust/common" }
+serde_json = "1.0"

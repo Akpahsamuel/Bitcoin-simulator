@@ -1,0 +1,22 @@
+{
+  "name": "bitcoin-sandbox-ts",
+  "version": "1.0.0",
+  "description": "TypeScript suite for Bitcoin Developer Sandbox",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@bitcoinerlab/secp256k1": "1.1.1",
+    "bip32": "4.0.0",
+    "bip39": "3.1.0",
+    "bitcoinjs-lib": "6.1.6",
+    "dotenv": "16.4.5",
+    "zeromq": "6.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.16.11",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3"
+  }
+}

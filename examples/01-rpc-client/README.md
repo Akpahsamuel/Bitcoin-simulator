@@ -1,0 +1,62 @@
+# 01 · RPC Client (Foundational Node Interfacing)
+
+This lab demonstrates how client backends authenticate with Bitcoin Core, query chain state, manage wallets, trigger mining, and access unauthenticated REST endpoints.
+
+---
+
+## Educational Companion
+- **Mastering Bitcoin (3rd Edition)**: [Chapter 3: Bitcoin Core: The Reference Implementation](https://github.com/bitcoinbook/bitcoinbook/blob/develop/ch03_bitcoin-core.adoc)
+- **Mastering the Lightning Network**: [Chapter 1: Introduction](https://github.com/lnbook/lnbook/blob/develop/01_introduction.asciidoc)
+
+---
+
+## Concepts Demonstrated
+1. **JSON-RPC Authentication**: Connecting to Bitcoin Core over HTTP Basic Authentication (`bitcoinrpc:bitcoinrpcpassword`).
+2. **Blockchain & Node Inspection**: Calling `getblockchaininfo` to inspect verification progress, block height, and chain parameters.
+3. **Wallet Creation & Address Generation**: Calling `createwallet` / `loadwallet` and `getnewaddress`.
+4. **On-Demand Mining**: Driving regtest block progression using `generatetoaddress`.
+5. **High-Performance REST Interface**: Querying Bitcoin Core's unauthenticated REST endpoint `/rest/chaininfo.json`.
+
+---
+
+## How to Run
+
+Assumes a running regtest node (`bash scripts/init-lab.sh`). One-time setup from
+the repo root: Python — `python -m venv --copies .venv && .venv/bin/pip install -r
+examples/python/requirements.txt`; TypeScript — `cd examples && npm install`;
+Rust/Go fetch their pinned deps on first build.
+
+### Python
+```bash
+.venv/bin/python examples/01-rpc-client/python/main.py
+```
+
+### TypeScript
+```bash
+cd examples && npx tsx 01-rpc-client/typescript/main.ts
+```
+
+### Rust
+```bash
+cargo run --manifest-path examples/01-rpc-client/rust/Cargo.toml
+```
+
+### Go
+```bash
+cd examples/01-rpc-client/go && go run .
+```
+
+---
+
+## Expected Output
+```text
+=== Lab 01: RPC Client ===
+[Step 1] Bootstrap lab wallet & initial funds ... ✓
+[Step 2] Query getblockchaininfo via JSON-RPC ... ✓ (chain: regtest, blocks: >= 101)
+[Step 3] Generate fresh address & mine 1 block ... ✓ (new block height: >= 102)
+[Step 4] Query wallet balance via getbalance ... ✓ (balance > 0 BTC)
+[Step 5] Query unauthenticated REST API (/rest/chaininfo.json) ... ✓
+======================================================
+Result: PASS ✓
+======================================================
+```

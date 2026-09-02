@@ -135,9 +135,12 @@ examples/
 
 ### Library expectations
 
-- **Python**: `requests`, `pyzmq`, `embit`. Not `python-bitcoinlib`, not `bit`.
-  Install into a **venv** (`python -m venv .venv`) — Debian's system Python is
-  PEP 668 "externally managed" and rejects a bare `pip install`.
+- **Python**: `requests`, `python-dotenv`, `pyzmq`, `embit`. Not
+  `python-bitcoinlib`, not `bit`. Install into a **venv**
+  (`python -m venv --copies .venv`) — Debian's system Python is PEP 668
+  "externally managed" and rejects a bare `pip install`; `--copies` avoids
+  symlink creation, which fails on bind-mounted workspaces (OrbStack / Docker
+  Desktop virtiofs).
 - **TypeScript**: `bitcoinjs-lib` v6 with `@bitcoinerlab/secp256k1` via
   `initEccLib` for Taproot; `bip39`, `bip32`, `zeromq`.
 - **Rust**: `rust-bitcoin` (`bitcoin` crate — `script`, `sighash`, `psbt`) +

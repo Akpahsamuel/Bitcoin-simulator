@@ -119,9 +119,12 @@ Andreas M. Antonopoulos, Olaoluwa Osuntokun & René Pickhardt — [full reposito
 
 ## Example Projects Roadmap
 
-> 🚧 **Status:** the language example suite is under construction. `00-cli-workshop/` (no code, `bitcoin-cli` only) works today.
+> 🚧 **Status:** `00-cli-workshop/` (no code) plus labs `01`–`03` in **all four
+> languages** are live and pass `scripts/test-examples.sh` against the regtest
+> node. Labs `04`–`06` are not yet implemented.
 
-Each project targets one core protocol primitive. **Python** and **TypeScript** are the reference implementations (all six coded examples); **Rust** and **Go** ship `01-rpc-client` plus templates so the remaining ports are straightforward contributions.
+Each project targets one core protocol primitive. **Python** and **TypeScript**
+are the reference implementations; **Rust** and **Go** track them lab-for-lab.
 
 ```
 examples/
@@ -139,10 +142,32 @@ Coded examples live at `examples/<NN-name>/<language>/` and read their connectio
 **New to `bitcoin-cli`?** Start with [`examples/00-cli-workshop/`](examples/00-cli-workshop/README.md) — a 10-minute, no-code walkthrough from a fresh node to a confirmed transaction.
 
 ### Running the Coded Examples
-Once an example is available, run it directly (e.g. `python main.py`, `npm start`, `cargo run`, `go run .`) or run the whole suite:
+
+In a **Codespace or Dev Container** the per-language dependencies are installed
+for you on first build (`scripts/setup-examples.sh` runs as `postCreateCommand`).
+Anywhere else — or to refresh after a dependency bump — run it yourself:
+
 ```bash
-bash scripts/test-examples.sh
+bash scripts/setup-examples.sh      # venv + pinned pip deps, npm workspace,
+                                    # cargo fetch, go mod download — idempotent
 ```
+
+Each language is independent: a toolchain you don't have is skipped, not an
+error, so you can set up and run **only the language you prefer**. See each
+`examples/<NN-name>/README.md` for the exact single command per language, or
+drive the suite with a filter:
+
+```bash
+bash scripts/test-examples.sh                      # every language, every lab
+bash scripts/test-examples.sh rust                 # just Rust, every lab
+bash scripts/test-examples.sh --lang python,go     # Python + Go
+bash scripts/test-examples.sh --lang python -e 03  # Python, lab 03 only
+bash scripts/test-examples.sh --list               # show discovered targets
+bash scripts/test-examples.sh --help
+```
+
+Languages you skip are simply not run (a missing toolchain is reported as
+`SKIP`, not a failure).
 
 ---
 
